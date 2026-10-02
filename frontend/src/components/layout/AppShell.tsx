@@ -25,7 +25,7 @@ const NAV: Record<Role, NavItem[]> = {
   ],
   exec: [
     { to: "/eksekutif", label: "Kotak Masuk", testid: "nav-exec-inbox", count: (s) => s.exec_pending },
-    { to: "/eksekutif/rekap", label: "Rekap & Audit", testid: "nav-exec-rekap" },
+    { to: "/eksekutif/rekap", label: "Monitor & Control", testid: "nav-exec-rekap" },
     { to: "/manajemen/dinding-apresiasi", label: "Dinding Apresiasi", testid: "nav-m-dinding" },
     { to: "/manajemen/cara-kerja", label: "Cara Kerja", testid: "nav-m-cara-kerja" },
   ],

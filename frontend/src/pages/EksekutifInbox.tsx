@@ -48,7 +48,7 @@ export default function EksekutifInbox() {
         description="Pesan tertutup yang telah ditinjau dan diteruskan oleh Human Capital. Balas langsung kepada karyawan pengirim."
         action={
           <Link to="/eksekutif/rekap" data-testid="exec-recap-link" className="text-sm font-medium text-sky-700 hover:underline">
-            Lihat Rekap & Audit
+            Lihat Monitor & Control
           </Link>
         }
       />

@@ -29,7 +29,7 @@ export default function EksekutifRekap() {
     <div className="space-y-8">
       <PageHeader
         eyebrow="Pengaman bias penyaring"
-        title="Rekap & Audit"
+        title="Monitor & Control"
         description="Pantau jumlah dan alasan penolakan, eskalasi tiket yang melewati batas, serta jejak setiap keputusan — tanpa membuka isi pesan."
       />
       <p className="flex items-center gap-2 rounded-lg bg-teal-50 px-4 py-3 text-sm text-teal-900">
