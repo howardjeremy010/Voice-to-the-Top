@@ -104,6 +104,9 @@ export default function PublicShell() {
             Akses Manajemen (Human Capital, CEO & CHCO)
           </Link>
         </div>
+        <div className="border-t border-[#EFEAE0] px-4 py-4 text-center text-[11px] text-muted-foreground md:px-10 lg:px-16" data-testid="footer-copyright">
+          © 2026 Supra Boga Lestari · Insan Bersuara Pilot V.1
+        </div>
       </footer>
       <Toaster richColors />
     </div>

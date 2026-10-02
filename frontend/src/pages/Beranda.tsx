@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight, Lock, Globe2, ShieldAlert, Phone, Search, Quote, ShieldCheck, UserRound, EyeOff, Check, X, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { apiGet } from "@/lib/api";
@@ -39,25 +39,6 @@ function Reveal({ children, delay = 0, className }: { children: ReactNode; delay
       {children}
     </motion.div>
   );
-}
-
-function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / 900);
-      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, to]);
-  return <span ref={ref}>{n}{suffix}</span>;
 }
 
 function SectionLabel({ n, children }: { n: string; children: ReactNode }) {
@@ -148,7 +129,7 @@ export default function Beranda() {
             <br />Anda, langsung ke Top Management.
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">
-            Satu suara, satu langkah, perubahan nyata. Tanpa perlu login — cukup simpan struk nomor tiket untuk memantau tanggapan CEO &amp; CHCO.
+            Bersama menyuarakan, bersama mewujudkan.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mt-9 flex flex-wrap gap-3">
             <Link to="/vtt" data-testid="hero-send-vtt-button" className={cn(buttonVariants({ size: "lg" }), "group h-13 bg-teal px-7 text-base text-white shadow-[0_8px_24px_rgba(18,128,92,0.45)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-teal/90")}>
@@ -162,18 +143,6 @@ export default function Beranda() {
               <Search className="size-4" /> Lacak Tiket Saya
             </Link>
           </motion.div>
-          <div className="mt-14 grid max-w-3xl grid-cols-3 gap-4">
-            {[
-              { v: 6, s: "", l: "cara bersuara" },
-              { v: 3, s: " hari", l: "maksimal tinjauan HC" },
-              { v: 7, s: " hari", l: "maksimal tanggapan pimpinan" },
-            ].map((k) => (
-              <div key={k.l} className="rounded-2xl border border-white/15 bg-white/5 p-4 backdrop-blur-sm">
-                <p className="font-heading text-3xl font-bold text-[#E9D48B] md:text-4xl" data-testid="hero-stat"><Counter to={k.v} suffix={k.s} /></p>
-                <p className="mt-1 text-xs text-slate-300 md:text-sm">{k.l}</p>
-              </div>
-            ))}
-          </div>
         </div>
         <a href="#cara" data-testid="hero-scroll-hint" className="relative mx-auto mb-4 flex flex-col items-center text-xs text-white/70 transition-colors duration-150 hover:text-white">
           Gulir untuk memilih cara
@@ -407,7 +376,7 @@ export default function Beranda() {
             </span>
             <span className="flex-1">
               <span className="block font-heading text-xl font-semibold text-foreground">Hotline Human Capital</span>
-              <span className="mt-1 block text-sm text-muted-foreground">Kecelakaan kerja, darurat BPJS, dan keadaan darurat K3.</span>
+              <span className="mt-1 block text-sm text-muted-foreground">Kecelakaan kerja, darurat BPJS, dan keadaan darurat lainnya.</span>
             </span>
             <ArrowUpRight className="size-5 text-rose-300 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-market-red" />
           </Link>
@@ -419,7 +388,7 @@ export default function Beranda() {
         <div className="awning h-3" aria-hidden />
         <div className="px-4 py-24 md:px-10">
           <Reveal>
-            <h2 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">Suara Anda dapat mengubah cara kita bekerja.</h2>
+            <h2 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight md:text-6xl">Setiap Suara Insan SBL Berkontribusi pada Perubahan</h2>
             <Link to="/vtt" data-testid="footer-cta-send" className={cn(buttonVariants({ size: "lg" }), "group mt-10 h-13 bg-teal px-8 text-base text-white transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-teal/90")}>
               Sampaikan Suara Anda <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
