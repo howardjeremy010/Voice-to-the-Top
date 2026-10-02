@@ -33,7 +33,7 @@ export default function Beranda() {
         <div className="relative overflow-hidden bg-navy text-white">
           <img
             src="https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=srgb&fm=jpg&q=75&w=1800"
-            alt="Produk segar di lorong supermarket"
+            alt="Produk segar di rak supermarket"
             className="absolute inset-0 size-full object-cover opacity-45"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/10" />
@@ -74,7 +74,7 @@ export default function Beranda() {
       <section>
         <p className="font-mono text-xs font-semibold text-teal">01 — Kategori</p>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="text-3xl font-bold tracking-tight text-navy md:text-4xl">Enam lorong untuk didengar</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-navy md:text-4xl">Enam rak untuk didengar</h2>
           <p className="max-w-md text-sm text-muted-foreground">Pilih yang paling sesuai. Setiap pesan ditinjau dan dapat dipantau melalui nomor tiket.</p>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -92,7 +92,7 @@ export default function Beranda() {
                 )}
               >
                 <div className="-mx-6 -mt-6 mb-5 flex items-center justify-between rounded-t-2xl bg-navy px-6 py-2.5 text-white">
-                  <span data-testid={`aisle-sign-${c.id}`} className="font-mono text-xs font-bold tracking-widest">LORONG {String(i + 1).padStart(2, "0")}</span>
+                  <span data-testid={`aisle-sign-${c.id}`} className="font-mono text-xs font-bold tracking-widest">RAK {String(i + 1).padStart(2, "0")}</span>
                   <ArrowUpRight className="size-4 text-white/60 transition-colors duration-150 group-hover:text-[#E9D48B]" />
                 </div>
                 <div className="flex items-start justify-between">
