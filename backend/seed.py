@@ -12,9 +12,9 @@ from lib.tickets import HC_REVIEW_DAYS, RESPONSE_DAYS, add_working_days, now
 
 PASSWORD = "Insan2026!"
 USERS = [
-    {"name": "Budi Prasetyo", "email": "hc@insan.co.id", "role": "hc", "title": "Human Capital Lead", "department": "Human Capital"},
-    {"name": "Hendra Kusuma", "email": "ceo@insan.co.id", "role": "exec", "title": "Chief Executive Officer", "department": "Direksi"},
-    {"name": "Maya Arifin", "email": "chco@insan.co.id", "role": "exec", "title": "Chief Human Capital Officer", "department": "Direksi"},
+    {"name": "Fakhran Ghadati", "email": "hc@insan.co.id", "role": "hc", "title": "Human Capital Lead", "department": "Human Capital"},
+    {"name": "Johartono Susilo", "email": "ceo@insan.co.id", "role": "exec", "title": "Chief Executive Officer", "department": "Direksi"},
+    {"name": "Sandra Kumalasari", "email": "chco@insan.co.id", "role": "exec", "title": "Chief Human Capital Officer", "department": "Direksi"},
 ]
 
 
@@ -87,10 +87,10 @@ async def main():
         actor = {"anonim": "Anonim", "rahasia": "Rahasia"}.get(mode) or sender[0]
         await db.audit_logs.insert_one({"id": str(uuid.uuid4()), "at": created, "actor_name": actor, "actor_role": "karyawan", "action": "Pesan dikirim", "ticket_no": doc["ticket_no"], "category": cat, "detail": None})
         if status == "ditolak":
-            await db.audit_logs.insert_one({"id": str(uuid.uuid4()), "at": decided, "actor_name": "Budi Prasetyo", "actor_role": "hc", "action": "Ditolak", "ticket_no": doc["ticket_no"], "category": cat, "detail": doc["rejection_reason"]})
+            await db.audit_logs.insert_one({"id": str(uuid.uuid4()), "at": decided, "actor_name": "Fakhran Ghadati", "actor_role": "hc", "action": "Ditolak", "ticket_no": doc["ticket_no"], "category": cat, "detail": doc["rejection_reason"]})
         if status in ("disetujui", "diteruskan"):
             action = "Disetujui & tampil di Dinding Apresiasi" if status == "disetujui" else "Diteruskan ke CEO & CHCO"
-            await db.audit_logs.insert_one({"id": str(uuid.uuid4()), "at": decided, "actor_name": "Budi Prasetyo", "actor_role": "hc", "action": action, "ticket_no": doc["ticket_no"], "category": cat, "detail": None})
+            await db.audit_logs.insert_one({"id": str(uuid.uuid4()), "at": decided, "actor_name": "Fakhran Ghadati", "actor_role": "hc", "action": action, "ticket_no": doc["ticket_no"], "category": cat, "detail": None})
     await db.counters.update_one({"id": f"vtt-{year}"}, {"$set": {"seq": len(samples)}}, upsert=True)
     print("Seeded users and", len(samples), "tickets.")
 
