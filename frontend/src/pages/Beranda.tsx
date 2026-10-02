@@ -373,7 +373,7 @@ export default function Beranda() {
             <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-navy transition-transform duration-300 group-hover:scale-110"><ShieldAlert className="size-6" /></span>
             <span className="flex-1">
               <span className="block font-heading text-xl font-semibold text-foreground">Whistle Blowing System</span>
-              <span className="mt-1 block text-sm text-muted-foreground">Laporkan dugaan pelanggaran melalui kanal terpisah yang independen.</span>
+              <span className="mt-1 block text-sm text-muted-foreground">Laporkan dugaan pelanggaran melalui WhatsApp atau email Whistle Blowing.</span>
             </span>
             <ArrowUpRight className="size-5 text-slate-400 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-navy" />
           </Link>

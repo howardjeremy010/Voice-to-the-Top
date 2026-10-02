@@ -119,7 +119,13 @@ export const ROLE_LABEL: Record<Role, string> = {
 export const ROLE_HOME: Record<Role, string> = { hc: "/hc", exec: "/eksekutif" };
 
 // PLACEHOLDER — replace with the real URLs/number once available.
-export const WBS_URL = "https://wbs.perusahaan.co.id";
+export const WBS_WA_NUMBER = "6287770077999";
+export const WBS_WA_DISPLAY = "0877-7007-7999";
+export const WBS_EMAIL = "whistleblowing@insan.co.id"; // PLACEHOLDER — dummy email, replace with the real address
+export const wbsWaUrl = () =>
+  `https://wa.me/${WBS_WA_NUMBER}?text=${encodeURIComponent("Halo Whistle Blowing System, saya ingin menyampaikan laporan dugaan pelanggaran.")}`;
+export const wbsMailUrl = () =>
+  `mailto:${WBS_EMAIL}?subject=${encodeURIComponent("Laporan Whistle Blowing")}`;
 export const HOTLINE_WA_NUMBER = "6287743900999";
 export const HOTLINE_WA_DISPLAY = "+62 877-4390-0999";
 export const HOTLINE_FEEDBACK_URL = "https://forms.gle/eG7KxBfDZQB4vEz28";
