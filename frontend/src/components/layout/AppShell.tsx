@@ -45,7 +45,7 @@ export default function AppShell() {
     <div className="min-h-svh bg-background">
       <header className="sticky top-0 z-40 border-b border-[#E7E1D3] bg-white/90 backdrop-blur-md">
         <div className="awning h-2" aria-hidden />
-        <div className="mx-auto flex max-w-7xl items-center gap-6 px-4 py-3 md:px-8">
+        <div className="flex w-full items-center gap-6 px-4 py-3 md:px-10 lg:px-16">
           <Link to={user?.role === "exec" ? "/eksekutif" : "/hc"} data-testid="brand-home-link" className="flex items-center gap-2.5">
             <BrandLogo subtitle="Ruang Manajemen" />
           </Link>
@@ -66,7 +66,7 @@ export default function AppShell() {
             </Button>
           </div>
         </div>
-        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 pb-2 md:px-8">
+        <nav className="flex w-full gap-1 overflow-x-auto px-4 pb-2 md:px-10 lg:px-16">
           {items.map((item) => {
             const n = item.count && summary.data ? item.count(summary.data) : 0;
             return (
@@ -93,7 +93,7 @@ export default function AppShell() {
           })}
         </nav>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-10">
+      <main className="w-full px-4 py-8 md:px-10 md:py-10 lg:px-16">
         <Outlet />
       </main>
       <Toaster richColors />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet, Link, useLocation } from "react-router-dom";
 import { Phone, Menu, X, LogIn } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
@@ -18,11 +18,12 @@ const NAV = [
 
 export default function PublicShell() {
   const [open, setOpen] = useState(false);
+  const isHome = useLocation().pathname === "/";
   return (
     <div className="min-h-svh bg-background">
       <header className="sticky top-0 z-40 border-b border-[#E7E1D3] bg-white/90 backdrop-blur-md">
         <div className="awning h-2" aria-hidden />
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:px-8">
+        <div className="flex w-full items-center gap-4 px-4 py-3 md:px-10 lg:px-16">
           <Link to="/" data-testid="brand-home-link" className="flex items-center gap-2.5">
             <BrandLogo subtitle="Where Every Voice Matters" />
           </Link>
@@ -89,12 +90,12 @@ export default function PublicShell() {
           </nav>
         )}
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-10">
+      <main className={cn("w-full", !isHome && "px-4 py-10 md:px-10 md:py-14 lg:px-16")}>
         <Outlet />
       </main>
       <footer className="border-t border-[#E7E1D3] bg-white">
         <div className="awning-green h-1.5" aria-hidden />
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 py-8 text-xs text-muted-foreground md:px-8">
+        <div className="flex w-full flex-wrap items-center justify-between gap-6 px-4 py-8 text-xs text-muted-foreground md:px-10 lg:px-16">
           <div className="flex items-center gap-4">
             <img src="/logo-sbl-group.png" alt="Supra Boga Lestari — Farmers Market dan Ranch Market" data-testid="footer-group-logo" className="h-16 w-auto" />
             <span className="max-w-[220px]">Insan Bersuara · Where Every Voice Matters. Kanal suara insan PT Supra Boga Lestari.</span>
