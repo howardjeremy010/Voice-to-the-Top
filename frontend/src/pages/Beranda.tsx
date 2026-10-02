@@ -186,9 +186,16 @@ export default function Beranda() {
                     style={{ background: "radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), rgba(18,128,92,0.12), transparent 65%)" }}
                   />
                   <div className="-mx-6 -mt-6 mb-5 flex items-center justify-between bg-navy px-6 py-2.5 text-white transition-colors duration-300 group-hover:bg-teal">
-                    <span data-testid={`aisle-sign-${c.id}`} className="inline-flex items-center gap-1.5 font-mono text-xs font-bold tracking-widest">
-                      {c.open ? <Globe2 className="size-3.5" /> : <Lock className="size-3.5" />}
-                      {c.open ? "TERBUKA" : "TERTUTUP"}
+                    <span data-testid={`aisle-sign-${c.id}`} aria-hidden className="flex items-center gap-1.5">
+                      {[0, 1, 2, 3, 4].map((d) => (
+                        <span
+                          key={d}
+                          style={{ transitionDelay: `${d * 50}ms`, opacity: 1 - d * 0.17 }}
+                          className="text-[11px] leading-none text-[#E9D48B] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:rotate-45"
+                        >
+                          ✦
+                        </span>
+                      ))}
                     </span>
                     <ArrowUpRight className="size-4 text-white/60 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </div>
