@@ -145,7 +145,7 @@ export default function Beranda() {
           </motion.div>
         </div>
         <a href="#cara" data-testid="hero-scroll-hint" className="relative mx-auto mb-4 flex flex-col items-center text-xs text-white/70 transition-colors duration-150 hover:text-white">
-          Gulir untuk memilih cara
+          Geser untuk memilih
           <ChevronDown className="mt-1 size-5 animate-bounce" />
         </a>
         <div className="relative overflow-hidden bg-market-red py-3 text-white" aria-hidden>
