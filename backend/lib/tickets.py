@@ -82,6 +82,7 @@ def to_ticket(doc: dict, viewer_role: str) -> Ticket:
         sender_display=sender_display(doc),
         identity_name=doc.get("display_name") if reviewer and doc["mode"] != "anonim" else None,
         identity_department=doc.get("department") if reviewer and doc["mode"] != "anonim" else None,
+        identity_employee_id=doc.get("employee_id") if reviewer and doc["mode"] != "anonim" else None,
         rejection_reason=doc.get("rejection_reason"),
         hc_note=doc.get("hc_note") if reviewer else None,
         reply=Reply(message=reply["message"], by_name=reply["by_name"], at=aware(reply["at"])) if reply else None,

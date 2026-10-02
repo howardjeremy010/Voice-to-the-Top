@@ -12,9 +12,9 @@ Internal employee voice portal (Bahasa Indonesia UI). FastAPI + Mongo backend, V
 apresiasi (Insan Menginspirasi, open → wall), aspirasi (Asa Insan), perbaikan (Insan Bertumbuh), inovasi (Insan Berkarya), keluhan (Ruang Peduli Insan), opini (Ragam Insan) — closed.
 
 ## Modes
-- rahasia: display_name (required) + department (optional) stored; visible to HC & exec only; public shows "Rahasia".
-- bernama: display_name (required) + department; name shown publicly.
-- anonim: no identity stored.
+- rahasia: display_name (required) + employee_id/NIK (required) + department (optional) stored; visible to HC & exec only; public shows "Rahasia".
+- bernama: display_name + employee_id/NIK (required) + department; name shown publicly, NIK only to HC & exec.
+- anonim: no identity stored (no name, no NIK).
 - All modes tracked via ticket_no + access_code (no accounts for employees).
 - Apresiasi requires recipient_name + publish_consent=true.
 

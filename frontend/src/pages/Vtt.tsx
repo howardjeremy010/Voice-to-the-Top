@@ -38,6 +38,7 @@ export default function Vtt() {
   const [mode, setMode] = useState<Mode | null>(prefill?.mode ?? null);
   const [displayName, setDisplayName] = useState("");
   const [department, setDepartment] = useState("");
+  const [nik, setNik] = useState("");
   const [consent, setConsent] = useState(false);
   const [created, setCreated] = useState<TicketCreated | null>(null);
 
@@ -59,7 +60,7 @@ export default function Vtt() {
   const canNext = [
     !!category,
     title.trim().length >= 3 && message.trim().length >= 10 && (!isApresiasi || recipient.trim().length > 0),
-    !!mode && (!needsIdentity || nameValue.trim().length > 0) && (!isApresiasi || consent),
+    !!mode && (!needsIdentity || (nameValue.trim().length > 0 && nik.trim().length >= 3)) && (!isApresiasi || consent),
     true,
   ][step];
 
@@ -72,6 +73,7 @@ export default function Vtt() {
       message: message.trim(),
       display_name: needsIdentity ? nameValue.trim() : null,
       department: needsIdentity ? department.trim() || null : null,
+      employee_id: needsIdentity ? nik.trim() : null,
       recipient_name: isApresiasi ? recipient.trim() : null,
       publish_consent: isApresiasi ? consent : false,
       resubmitted_from: prefill?.resubmitted_from ?? null,
@@ -230,6 +232,18 @@ export default function Vtt() {
                   />
                 </div>
                 <div className="space-y-1.5">
+                  <Label htmlFor="nik">Nomor Induk Karyawan (NIK)</Label>
+                  <Input
+                    id="nik"
+                    data-testid="wizard-nik-input"
+                    value={nik}
+                    maxLength={30}
+                    onChange={(e) => setNik(e.target.value)}
+                    placeholder="Contoh: SBL-20190412"
+                    className="font-mono"
+                  />
+                </div>
+                <div className="space-y-1.5">
                   <Label htmlFor="department">Unit / divisi (opsional)</Label>
                   <Input
                     id="department"
@@ -240,6 +254,7 @@ export default function Vtt() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground sm:col-span-2">
+                  NIK hanya terlihat oleh Human Capital serta CEO &amp; CHCO untuk memastikan asal suara.{" "}
                   {mode === "rahasia"
                     ? "Nama hanya terlihat oleh Human Capital serta CEO & CHCO, tidak ditampilkan kepada karyawan lain."
                     : "Nama Anda akan ditampilkan bersama pesan."}
@@ -278,6 +293,7 @@ export default function Vtt() {
                 {MODE_LABEL[mode]}
                 {needsIdentity && ` · ${nameValue}${department ? ` (${department})` : ""}`}
               </Row>
+              {needsIdentity && <Row label="NIK"><span className="font-mono">{nik}</span></Row>}
               {isApresiasi && <Row label="Untuk">{recipient}</Row>}
               {isApresiasi && <Row label="Izin publikasi">{consent ? "Diizinkan" : "Tidak"}</Row>}
               <Row label="Judul">{title}</Row>

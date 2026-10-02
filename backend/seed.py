@@ -41,8 +41,8 @@ async def main():
         print("Users refreshed; tickets already present.")
         return
 
-    siti = ("Siti Rahmawati", "Operasional")
-    andi = ("Andi Wijaya", "Keuangan")
+    siti = ("Siti Rahmawati", "Operasional", "SBL-20190412")
+    andi = ("Andi Wijaya", "Keuangan", "SBL-20210877")
     t0 = now()
     samples = [
         # (category, mode, sender, title, message, recipient, status, days_ago)
@@ -67,6 +67,7 @@ async def main():
             "recipient_name": recipient, "publish_consent": cat == "apresiasi",
             "display_name": sender[0] if sender else None,
             "department": sender[1] if sender else None,
+            "employee_id": sender[2] if sender else None,
             "status": status, "created_at": created,
             "review_due_at": add_working_days(created, HC_REVIEW_DAYS),
             "response_due_at": None, "history": history, "resubmitted_from": None,

@@ -85,7 +85,7 @@ export const MODES: { id: Mode; title: string; description: string }[] = [
   {
     id: "rahasia",
     title: "Rahasia",
-    description: "Nama dan unit Anda dicatat, tetapi hanya terlihat oleh peninjau berwenang (Human Capital serta CEO & CHCO).",
+    description: "Nama, NIK, dan unit Anda dicatat, tetapi hanya terlihat oleh peninjau berwenang (Human Capital serta CEO & CHCO).",
   },
   {
     id: "bernama",

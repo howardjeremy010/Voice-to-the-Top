@@ -28,6 +28,7 @@ export interface TicketCreate {
   message: string;
   display_name?: string | null;
   department?: string | null;
+  employee_id?: string | null;
   recipient_name?: string | null;
   publish_consent: boolean;
   resubmitted_from?: string | null;
@@ -65,6 +66,7 @@ export interface Ticket {
   sender_display: string;
   identity_name: string | null;
   identity_department: string | null;
+  identity_employee_id: string | null;
   rejection_reason: string | null;
   hc_note: string | null;
   reply: Reply | null;

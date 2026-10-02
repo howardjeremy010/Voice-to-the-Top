@@ -155,6 +155,11 @@ export default function HcModerasi() {
                   {selected.identity_name && ` · ${selected.identity_name}`}
                   {selected.identity_department && ` (${selected.identity_department})`}
                 </span>
+                {selected.identity_employee_id && (
+                  <span data-testid="hc-detail-nik" className="ml-1 rounded-md bg-accent px-2 py-0.5 font-mono text-xs font-semibold text-navy">
+                    NIK {selected.identity_employee_id}
+                  </span>
+                )}
               </span>
               <span>Dikirim {fmtDateTime(selected.created_at)}</span>
               <span>Batas tinjau {fmtDate(selected.review_due_at)}</span>

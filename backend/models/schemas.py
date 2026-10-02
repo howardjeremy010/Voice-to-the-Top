@@ -33,6 +33,7 @@ class TicketCreate(BaseModel):
     message: str = Field(min_length=10, max_length=4000)
     display_name: Optional[str] = None  # required for bernama & rahasia; never stored for anonim
     department: Optional[str] = None  # unit kerja, optional, never stored for anonim
+    employee_id: Optional[str] = Field(default=None, max_length=30)  # NIK, required for rahasia & bernama
     recipient_name: Optional[str] = None  # only for apresiasi
     publish_consent: bool = False
     resubmitted_from: Optional[str] = None  # ticket_no
@@ -70,6 +71,7 @@ class Ticket(BaseModel):
     sender_display: str
     identity_name: Optional[str] = None  # visible to HC/exec only for rahasia & bernama
     identity_department: Optional[str] = None
+    identity_employee_id: Optional[str] = None  # NIK, HC/exec only
     rejection_reason: Optional[str] = None
     hc_note: Optional[str] = None
     reply: Optional[Reply] = None

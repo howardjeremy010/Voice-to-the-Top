@@ -111,6 +111,11 @@ export default function EksekutifInbox() {
                   {selected.identity_name && ` · ${selected.identity_name}`}
                   {selected.identity_department && ` (${selected.identity_department})`}
                 </span>
+                {selected.identity_employee_id && (
+                  <span data-testid="exec-detail-nik" className="ml-1 rounded-md bg-accent px-2 py-0.5 font-mono text-xs font-semibold text-navy">
+                    NIK {selected.identity_employee_id}
+                  </span>
+                )}
               </span>
               {selected.response_due_at && <span>Batas tanggapan {fmtDate(selected.response_due_at)}</span>}
             </div>

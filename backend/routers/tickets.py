@@ -28,8 +28,11 @@ async def next_ticket_no() -> str:
 async def create_ticket(body: TicketCreate):
     anonymous = body.mode == "anonim"
     name = (body.display_name or "").strip()
+    nik = (body.employee_id or "").strip().upper()
     if not anonymous and not name:
         raise HTTPException(status_code=400, detail="Nama wajib diisi untuk mode Rahasia dan Bernama")
+    if not anonymous and not (3 <= len(nik) <= 30 and nik.replace("-", "").replace(".", "").isalnum()):
+        raise HTTPException(status_code=400, detail="Nomor Induk Karyawan wajib diisi dengan benar untuk mode Rahasia dan Bernama")
     if body.category == "apresiasi":
         if not body.publish_consent:
             raise HTTPException(status_code=400, detail="Izin publikasi wajib dicentang untuk Apresiasi")
@@ -49,6 +52,7 @@ async def create_ticket(body: TicketCreate):
         # Anonim: identity is never stored.
         "display_name": None if anonymous else name,
         "department": None if anonymous else ((body.department or "").strip() or None),
+        "employee_id": None if anonymous else nik,
         "status": "terkirim",
         "created_at": ts,
         "review_due_at": add_working_days(ts, HC_REVIEW_DAYS),
