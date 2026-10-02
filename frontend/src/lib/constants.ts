@@ -85,7 +85,7 @@ export const MODES: { id: Mode; title: string; description: string }[] = [
   {
     id: "rahasia",
     title: "Rahasia",
-    description: "Identitas Anda hanya terlihat oleh peninjau berwenang (Human Capital serta CEO & CHCO).",
+    description: "Nama dan unit Anda dicatat, tetapi hanya terlihat oleh peninjau berwenang (Human Capital serta CEO & CHCO).",
   },
   {
     id: "bernama",
@@ -95,7 +95,7 @@ export const MODES: { id: Mode; title: string; description: string }[] = [
   {
     id: "anonim",
     title: "Anonim",
-    description: "Identitas tidak dikumpulkan. Pantau tiket dan balasan hanya melalui nomor tiket dan kode akses.",
+    description: "Identitas tidak dikumpulkan sama sekali. Pantau tiket dan balasan melalui nomor tiket dan kode akses.",
   },
 ];
 
@@ -112,12 +112,11 @@ export const STATUS_META: Record<Status, { label: string; className: string }> =
 };
 
 export const ROLE_LABEL: Record<Role, string> = {
-  karyawan: "Karyawan",
   hc: "Human Capital",
   exec: "CEO & CHCO",
 };
 
-export const ROLE_HOME: Record<Role, string> = { karyawan: "/", hc: "/hc", exec: "/eksekutif" };
+export const ROLE_HOME: Record<Role, string> = { hc: "/hc", exec: "/eksekutif" };
 
 // PLACEHOLDER — replace with the real URLs/number once available.
 export const WBS_URL = "https://wbs.perusahaan.co.id";
@@ -129,8 +128,6 @@ export const hotlineWaUrl = (text = "Halo Hotline Human Capital, saya membutuhka
 
 export const DEMO_PASSWORD = "Insan2026!";
 export const DEMO_ACCOUNTS: { email: string; name: string; role: Role; note: string }[] = [
-  { email: "siti@insan.co.id", name: "Siti Rahmawati", role: "karyawan", note: "Operasional" },
-  { email: "andi@insan.co.id", name: "Andi Wijaya", role: "karyawan", note: "Keuangan" },
   { email: "hc@insan.co.id", name: "Budi Prasetyo", role: "hc", note: "Human Capital Lead" },
   { email: "ceo@insan.co.id", name: "Hendra Kusuma", role: "exec", note: "CEO" },
   { email: "chco@insan.co.id", name: "Maya Arifin", role: "exec", note: "CHCO" },

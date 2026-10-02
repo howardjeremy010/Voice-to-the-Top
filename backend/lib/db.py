@@ -26,7 +26,6 @@ INDEXES: dict[str, list[IndexModel]] = {
     "tickets": [
         IndexModel([("id", ASCENDING)], name="id", unique=True),
         IndexModel([("ticket_no", ASCENDING)], name="ticket_no", unique=True),
-        IndexModel([("owner_id", ASCENDING), ("created_at", DESCENDING)], name="owner_created"),
         IndexModel([("status", ASCENDING), ("created_at", DESCENDING)], name="status_created"),
         IndexModel([("category", ASCENDING), ("status", ASCENDING), ("decided_at", DESCENDING)], name="cat_status_decided"),
     ],

@@ -7,11 +7,11 @@ import type { Status } from "@/lib/types";
 
 const FLOW: { title: string; text: string }[] = [
   { title: "Pilih kategori & tulis pesan", text: "Karyawan memilih satu dari enam kategori, menulis pesan, dan memilih cara mengirim: Rahasia, Bernama, atau Anonim." },
-  { title: "Terima nomor tiket", text: "Setelah dikirim, karyawan menerima nomor tiket dan kode akses. Status awal: Terkirim." },
+  { title: "Terima nomor tiket", text: "Tanpa perlu login, karyawan menerima nomor tiket dan kode akses untuk dilacak di menu Lacak Tiket. Status awal: Terkirim." },
   { title: "Tinjauan Human Capital", text: "Human Capital membaca pesan (status Ditinjau) dan memutuskan: meneruskan, menyetujui, atau menolak dengan alasan." },
   { title: "Diteruskan atau ditampilkan", text: "Pesan tertutup diteruskan ke CEO & CHCO dan notifikasi email dikirim. Apresiasi yang disetujui tampil di Dinding Apresiasi." },
   { title: "Tanggapan CEO & CHCO", text: "CEO & CHCO membaca pesan (status Ditindaklanjuti), lalu membalas langsung kepada karyawan pengirim." },
-  { title: "Selesai", text: "Setelah balasan terkirim, status menjadi Selesai. Balasan untuk pesan Anonim hanya dapat dibaca melalui nomor tiket." },
+  { title: "Selesai", text: "Setelah balasan terkirim, status menjadi Selesai. Balasan dibaca melalui Lacak Tiket dengan nomor tiket dan kode akses." },
 ];
 
 const STATUS_DEF: { s: Status; text: string }[] = [

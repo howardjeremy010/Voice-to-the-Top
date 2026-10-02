@@ -4,15 +4,13 @@ import { Award, Quote } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import PageHeader from "@/components/common/PageHeader";
 import { apiGet } from "@/lib/api";
-import { useMe } from "@/lib/hooks";
 import { fmtDate } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { WallItem } from "@/lib/types";
 
 const TINTS = ["bg-amber-50", "bg-white", "bg-teal-50/60", "bg-sky-50/60", "bg-white", "bg-amber-50/60"];
 
-export default function DindingApresiasi() {
-  const { data: me } = useMe();
+export default function DindingApresiasi({ readOnly = false }: { readOnly?: boolean }) {
   const wall = useQuery({ queryKey: ["wall"], queryFn: () => apiGet<WallItem[]>("/wall"), retry: false });
 
   return (
@@ -22,7 +20,7 @@ export default function DindingApresiasi() {
         title="Dinding Apresiasi"
         description="Ucapan terima kasih dan pengakuan antarinsan yang telah disetujui Human Capital."
         action={
-          me?.role === "karyawan" ? (
+          !readOnly ? (
             <Link to="/vtt?kategori=apresiasi" data-testid="wall-send-appreciation" className={cn(buttonVariants(), "bg-teal text-white hover:bg-teal/90")}>
               <Award className="size-4" /> Beri apresiasi
             </Link>

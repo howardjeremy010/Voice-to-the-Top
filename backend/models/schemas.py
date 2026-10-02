@@ -5,7 +5,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
-Role = Literal["karyawan", "hc", "exec"]
+Role = Literal["hc", "exec"]
 Category = Literal["apresiasi", "aspirasi", "perbaikan", "inovasi", "keluhan", "opini"]
 Mode = Literal["rahasia", "bernama", "anonim"]
 Status = Literal["terkirim", "ditinjau", "diteruskan", "disetujui", "ditindaklanjuti", "ditolak", "selesai"]
@@ -31,7 +31,8 @@ class TicketCreate(BaseModel):
     mode: Mode
     title: str = Field(min_length=3, max_length=120)
     message: str = Field(min_length=10, max_length=4000)
-    display_name: Optional[str] = None  # only for bernama
+    display_name: Optional[str] = None  # required for bernama & rahasia; never stored for anonim
+    department: Optional[str] = None  # unit kerja, optional, never stored for anonim
     recipient_name: Optional[str] = None  # only for apresiasi
     publish_consent: bool = False
     resubmitted_from: Optional[str] = None  # ticket_no
@@ -110,7 +111,6 @@ class WallItem(BaseModel):
 class Summary(BaseModel):
     hc_pending: int
     exec_pending: int
-    my_open: int
     wall_count: int
 
 

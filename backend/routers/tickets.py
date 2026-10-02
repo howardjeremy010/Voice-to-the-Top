@@ -1,4 +1,4 @@
-"""Employee-facing routes: submit VTT, my tickets, anonymous lookup, appreciation wall, summary."""
+"""Public routes (no login): submit VTT, track by ticket no + access code, appreciation wall. Plus management summary."""
 
 import secrets
 import uuid
@@ -6,7 +6,7 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException
 from pymongo import ReturnDocument
 
-from lib.auth import get_current_user, require_role
+from lib.auth import get_current_user
 from lib.db import db
 from lib.tickets import HC_REVIEW_DAYS, add_working_days, audit, now, sender_display, to_ticket
 from models.schemas import LookupIn, Summary, Ticket, TicketCreate, TicketCreated, WallItem
@@ -25,16 +25,17 @@ async def next_ticket_no() -> str:
 
 
 @router.post("/tickets", response_model=TicketCreated)
-async def create_ticket(body: TicketCreate, user: dict = Depends(require_role("karyawan"))):
-    if body.mode == "bernama" and not (body.display_name or "").strip():
-        raise HTTPException(status_code=400, detail="Nama wajib diisi untuk mode Bernama")
+async def create_ticket(body: TicketCreate):
+    anonymous = body.mode == "anonim"
+    name = (body.display_name or "").strip()
+    if not anonymous and not name:
+        raise HTTPException(status_code=400, detail="Nama wajib diisi untuk mode Rahasia dan Bernama")
     if body.category == "apresiasi":
         if not body.publish_consent:
             raise HTTPException(status_code=400, detail="Izin publikasi wajib dicentang untuk Apresiasi")
         if not (body.recipient_name or "").strip():
             raise HTTPException(status_code=400, detail="Nama rekan yang diapresiasi wajib diisi")
     ts = now()
-    anonymous = body.mode == "anonim"
     doc = {
         "id": str(uuid.uuid4()),
         "ticket_no": await next_ticket_no(),
@@ -45,11 +46,9 @@ async def create_ticket(body: TicketCreate, user: dict = Depends(require_role("k
         "message": body.message.strip(),
         "recipient_name": (body.recipient_name or "").strip() or None if body.category == "apresiasi" else None,
         "publish_consent": body.publish_consent if body.category == "apresiasi" else False,
-        "display_name": body.display_name.strip() if body.mode == "bernama" and body.display_name else None,
         # Anonim: identity is never stored.
-        "owner_id": None if anonymous else user["id"],
-        "owner_name": None if anonymous else user["name"],
-        "owner_department": None if anonymous else user["department"],
+        "display_name": None if anonymous else name,
+        "department": None if anonymous else ((body.department or "").strip() or None),
         "status": "terkirim",
         "created_at": ts,
         "review_due_at": add_working_days(ts, HC_REVIEW_DAYS),
@@ -58,28 +57,22 @@ async def create_ticket(body: TicketCreate, user: dict = Depends(require_role("k
         "resubmitted_from": body.resubmitted_from,
     }
     await db.tickets.insert_one(doc)
-    await audit({"name": "Anonim" if anonymous else sender_display(doc), "role": "karyawan"}, "Pesan dikirim", doc)
+    await audit({"name": sender_display(doc), "role": "karyawan"}, "Pesan dikirim", doc)
     return TicketCreated(id=doc["id"], ticket_no=doc["ticket_no"], access_code=doc["access_code"], status="terkirim")
 
 
-@router.get("/tickets/mine", response_model=list[Ticket])
-async def my_tickets(user: dict = Depends(require_role("karyawan"))):
-    docs = await db.tickets.find({"owner_id": user["id"]}, {"_id": 0}).sort("created_at", -1).to_list(500)
-    return [to_ticket(d, "karyawan") for d in docs]
-
-
 @router.post("/tickets/lookup", response_model=Ticket)
-async def lookup(body: LookupIn, user: dict = Depends(get_current_user)):
+async def lookup(body: LookupIn):
     doc = await db.tickets.find_one(
         {"ticket_no": body.ticket_no.strip().upper(), "access_code": body.access_code.strip().upper()}, {"_id": 0}
     )
     if not doc:
         raise HTTPException(status_code=404, detail="Nomor tiket atau kode akses tidak ditemukan")
-    return to_ticket(doc, "karyawan")
+    return to_ticket(doc, "public")
 
 
 @router.get("/wall", response_model=list[WallItem])
-async def wall(user: dict = Depends(get_current_user)):
+async def wall():
     docs = await db.tickets.find(
         {"category": "apresiasi", "status": "disetujui", "publish_consent": True}, {"_id": 0}
     ).sort("decided_at", -1).to_list(500)
@@ -98,8 +91,5 @@ async def summary(user: dict = Depends(get_current_user)):
     return Summary(
         hc_pending=await db.tickets.count_documents({"status": {"$in": ["terkirim", "ditinjau"]}}),
         exec_pending=await db.tickets.count_documents({"status": {"$in": CLOSED_ACTIVE}}),
-        my_open=await db.tickets.count_documents(
-            {"owner_id": user["id"], "status": {"$nin": ["selesai", "ditolak", "disetujui"]}}
-        ),
         wall_count=await db.tickets.count_documents({"category": "apresiasi", "status": "disetujui", "publish_consent": True}),
     )

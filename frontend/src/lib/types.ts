@@ -1,5 +1,5 @@
 // Hand-written mirrors of backend/models/schemas.py — keep in sync.
-export type Role = "karyawan" | "hc" | "exec";
+export type Role = "hc" | "exec";
 export type Category = "apresiasi" | "aspirasi" | "perbaikan" | "inovasi" | "keluhan" | "opini";
 export type Mode = "rahasia" | "bernama" | "anonim";
 export type Status =
@@ -27,6 +27,7 @@ export interface TicketCreate {
   title: string;
   message: string;
   display_name?: string | null;
+  department?: string | null;
   recipient_name?: string | null;
   publish_consent: boolean;
   resubmitted_from?: string | null;
@@ -88,7 +89,6 @@ export interface WallItem {
 export interface Summary {
   hc_pending: number;
   exec_pending: number;
-  my_open: number;
   wall_count: number;
 }
 

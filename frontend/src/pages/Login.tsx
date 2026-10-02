@@ -1,8 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { Megaphone, ShieldCheck, Loader2 } from "lucide-react";
+import { ShieldCheck, Loader2 } from "lucide-react";
+import BrandLogo from "@/components/common/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,26 +36,23 @@ export default function Login() {
   return (
     <div className="grid min-h-svh lg:grid-cols-[1.1fr_1fr]">
       <section className="relative hidden overflow-hidden bg-navy p-12 text-white lg:flex lg:flex-col">
+        <div className="awning absolute inset-x-0 top-0 z-10 h-2" aria-hidden />
         <img
-          src="https://images.unsplash.com/photo-1672917187338-7f81ecac3d3f?crop=entropy&cs=srgb&fm=jpg&q=70&w=1400"
-          alt="Tim profesional berkolaborasi"
+          src="https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=srgb&fm=jpg&q=70&w=1400"
+          alt="Produk segar di supermarket"
           className="absolute inset-0 size-full object-cover opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40" />
-        <div className="relative flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur">
-            <Megaphone className="size-5" />
-          </span>
-          <span className="text-lg font-bold">Insan Bersuara</span>
+        <div className="relative">
+          <BrandLogo light subtitle="Ruang Manajemen" />
         </div>
         <div className="relative mt-auto max-w-lg animate-rise">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-teal-300">Where Every Voice Matters</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#E9D48B]">Where Every Voice Matters</p>
           <h1 className="mt-3 text-5xl font-bold leading-[1.1] tracking-tight">
             Setiap suara insan layak didengar.
           </h1>
           <p className="mt-4 text-base leading-relaxed text-slate-300">
-            Sampaikan apresiasi, aspirasi, saran, ide, keluhan, dan opini Anda langsung kepada CEO &amp; CHCO
-            secara aman dan terpantau.
+            Ruang manajemen untuk meninjau, meneruskan, dan menanggapi suara setiap insan perusahaan.
           </p>
           <p className="mt-8 flex items-center gap-2 text-sm text-slate-300">
             <ShieldCheck className="size-4 text-teal-300" /> Mode Rahasia dan Anonim tersedia untuk setiap pesan.
@@ -64,8 +62,13 @@ export default function Login() {
 
       <section className="flex items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-md animate-rise">
-          <h2 className="text-3xl font-bold tracking-tight text-navy">Masuk</h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">Gunakan akun perusahaan Anda untuk melanjutkan.</p>
+          <Link to="/" data-testid="login-back-public" className="mb-8 inline-flex items-center gap-1 text-sm font-medium text-sky-700 hover:underline">
+            ← Kembali ke situs Insan Bersuara
+          </Link>
+          <h2 className="text-3xl font-bold tracking-tight text-navy">Masuk Manajemen</h2>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Khusus Human Capital serta CEO &amp; CHCO. Karyawan tidak perlu login untuk mengirim atau melacak pesan.
+          </p>
           <form onSubmit={submit} className="mt-8 space-y-4" data-testid="login-form">
             <div className="space-y-1.5">
               <Label htmlFor="email">Email</Label>

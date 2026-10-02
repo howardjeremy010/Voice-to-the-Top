@@ -62,10 +62,11 @@ def sender_display(doc: dict) -> str:
         return "Anonim"
     if doc["mode"] == "rahasia":
         return "Rahasia"
-    return doc.get("display_name") or doc.get("owner_name") or "Bernama"
+    return doc.get("display_name") or "Bernama"
 
 
 def to_ticket(doc: dict, viewer_role: str) -> Ticket:
+    """viewer_role: 'public' (lookup by ticket+code), 'hc' or 'exec'."""
     reviewer = viewer_role in ("hc", "exec")
     reply = doc.get("reply")
     return Ticket(
@@ -79,8 +80,8 @@ def to_ticket(doc: dict, viewer_role: str) -> Ticket:
         publish_consent=doc.get("publish_consent", False),
         status=doc["status"],
         sender_display=sender_display(doc),
-        identity_name=(doc.get("display_name") or doc.get("owner_name")) if reviewer and doc["mode"] != "anonim" else None,
-        identity_department=doc.get("owner_department") if reviewer and doc["mode"] != "anonim" else None,
+        identity_name=doc.get("display_name") if reviewer and doc["mode"] != "anonim" else None,
+        identity_department=doc.get("department") if reviewer and doc["mode"] != "anonim" else None,
         rejection_reason=doc.get("rejection_reason"),
         hc_note=doc.get("hc_note") if reviewer else None,
         reply=Reply(message=reply["message"], by_name=reply["by_name"], at=aware(reply["at"])) if reply else None,

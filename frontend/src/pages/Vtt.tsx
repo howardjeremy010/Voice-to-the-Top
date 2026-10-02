@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import PageHeader from "@/components/common/PageHeader";
 import { CategoryPill } from "@/components/common/Badges";
 import { apiPost } from "@/lib/api";
-import { errMsg, useMe } from "@/lib/hooks";
+import { errMsg } from "@/lib/hooks";
 import { queryClient } from "@/lib/queryClient";
 import { CATEGORIES, CATEGORY_BY_ID, MODES, MODE_LABEL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,6 @@ function isCategory(v: string | null): v is Category {
 }
 
 export default function Vtt() {
-  const { data: me } = useMe();
   const [params] = useSearchParams();
   const location = useLocation();
   const prefill = (location.state as { prefill?: Partial<TicketCreate> } | null)?.prefill;
@@ -38,11 +37,13 @@ export default function Vtt() {
   const [recipient, setRecipient] = useState(prefill?.recipient_name ?? "");
   const [mode, setMode] = useState<Mode | null>(prefill?.mode ?? null);
   const [displayName, setDisplayName] = useState("");
+  const [department, setDepartment] = useState("");
   const [consent, setConsent] = useState(false);
   const [created, setCreated] = useState<TicketCreated | null>(null);
 
   const isApresiasi = category === "apresiasi";
-  const nameValue = displayName || me?.name || "";
+  const nameValue = displayName;
+  const needsIdentity = mode === "rahasia" || mode === "bernama";
 
   const submit = useMutation({
     mutationFn: (body: TicketCreate) => apiPost<TicketCreated>("/tickets", body),
@@ -58,7 +59,7 @@ export default function Vtt() {
   const canNext = [
     !!category,
     title.trim().length >= 3 && message.trim().length >= 10 && (!isApresiasi || recipient.trim().length > 0),
-    !!mode && (mode !== "bernama" || nameValue.trim().length > 0) && (!isApresiasi || consent),
+    !!mode && (!needsIdentity || nameValue.trim().length > 0) && (!isApresiasi || consent),
     true,
   ][step];
 
@@ -69,7 +70,8 @@ export default function Vtt() {
       mode,
       title: title.trim(),
       message: message.trim(),
-      display_name: mode === "bernama" ? nameValue.trim() : null,
+      display_name: needsIdentity ? nameValue.trim() : null,
+      department: needsIdentity ? department.trim() || null : null,
       recipient_name: isApresiasi ? recipient.trim() : null,
       publish_consent: isApresiasi ? consent : false,
       resubmitted_from: prefill?.resubmitted_from ?? null,
@@ -215,21 +217,39 @@ export default function Vtt() {
                 );
               })}
             </div>
-            {mode === "bernama" && (
-              <div className="space-y-1.5 animate-rise">
-                <Label htmlFor="display-name">Nama yang ditampilkan</Label>
-                <Input
-                  id="display-name"
-                  data-testid="wizard-display-name-input"
-                  value={nameValue}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                />
+            {needsIdentity && (
+              <div className="grid gap-4 animate-rise sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="display-name">Nama lengkap</Label>
+                  <Input
+                    id="display-name"
+                    data-testid="wizard-display-name-input"
+                    value={nameValue}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    placeholder="Nama Anda"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="department">Unit / divisi (opsional)</Label>
+                  <Input
+                    id="department"
+                    data-testid="wizard-department-input"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    placeholder="Contoh: Operasional"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground sm:col-span-2">
+                  {mode === "rahasia"
+                    ? "Nama hanya terlihat oleh Human Capital serta CEO & CHCO, tidak ditampilkan kepada karyawan lain."
+                    : "Nama Anda akan ditampilkan bersama pesan."}
+                </p>
               </div>
             )}
             {mode === "anonim" && (
               <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                Pesan anonim tidak muncul di Tiket Saya. Simpan nomor tiket dan kode akses yang akan diberikan setelah
-                pengiriman untuk memantau status dan balasan.
+                Identitas Anda tidak dikumpulkan. Simpan nomor tiket dan kode akses yang diberikan setelah pengiriman
+                untuk memantau status dan balasan.
               </p>
             )}
             {isApresiasi && (
@@ -256,7 +276,7 @@ export default function Vtt() {
               <Row label="Sifat">{CATEGORY_BY_ID[category].open ? "Terbuka (Dinding Apresiasi)" : "Tertutup"}</Row>
               <Row label="Cara mengirim">
                 {MODE_LABEL[mode]}
-                {mode === "bernama" && ` · ${nameValue}`}
+                {needsIdentity && ` · ${nameValue}${department ? ` (${department})` : ""}`}
               </Row>
               {isApresiasi && <Row label="Untuk">{recipient}</Row>}
               {isApresiasi && <Row label="Izin publikasi">{consent ? "Diizinkan" : "Tidak"}</Row>}
@@ -313,45 +333,62 @@ function Success({ created, anonymous }: { created: TicketCreated; anonymous: bo
     void navigator.clipboard?.writeText(text);
     toast.success("Disalin ke papan klip");
   };
+  const now = new Date().toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
   return (
-    <div className="mx-auto max-w-xl animate-rise rounded-2xl border border-slate-200/80 bg-white p-8 text-center shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
-      <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-teal-50 text-teal">
-        <Check className="size-7" />
-      </span>
-      <h1 data-testid="success-title" className="mt-4 text-2xl font-bold text-navy">Pesan Anda telah terkirim</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Status saat ini: <span className="font-semibold text-foreground">Terkirim</span>. Human Capital akan meninjau dalam
-        maksimal 3 hari kerja.
-      </p>
-      <div className="mt-6 grid gap-3 text-left">
-        <div className="flex items-center justify-between rounded-xl bg-secondary px-4 py-3">
-          <span>
-            <span className="block text-xs text-muted-foreground">Nomor tiket</span>
-            <span data-testid="success-ticket-number" className="font-mono text-lg font-semibold text-navy">{created.ticket_no}</span>
-          </span>
-          <Button data-testid="copy-ticket-number" variant="ghost" size="icon-sm" onClick={() => copy(created.ticket_no)} aria-label="Salin nomor tiket">
-            <Copy className="size-4" />
-          </Button>
+    <div className="mx-auto max-w-md animate-rise">
+      <div data-testid="success-receipt" className="relative bg-white px-7 pb-8 pt-7 font-mono text-sm text-slate-700 shadow-[0_12px_32px_rgba(11,61,46,0.12)]">
+        <div className="text-center">
+          <img src="/logo-sbl.png" alt="Supra Boga Lestari" className="mx-auto h-12 w-auto" />
+          <p className="mt-3 font-heading text-lg font-bold text-navy">STRUK SUARA INSAN</p>
+          <p className="text-xs text-muted-foreground">Insan Bersuara · Voice to the Top</p>
         </div>
-        <div className="flex items-center justify-between rounded-xl bg-secondary px-4 py-3">
-          <span>
-            <span className="block text-xs text-muted-foreground">Kode akses</span>
-            <span data-testid="success-access-code" className="font-mono text-lg font-semibold text-navy">{created.access_code}</span>
-          </span>
-          <Button data-testid="copy-access-code" variant="ghost" size="icon-sm" onClick={() => copy(created.access_code)} aria-label="Salin kode akses">
-            <Copy className="size-4" />
-          </Button>
+        <div className="my-4 border-t border-dashed border-slate-300" />
+        <div className="flex items-center justify-center gap-2 text-teal">
+          <Check className="size-5" />
+          <h1 data-testid="success-title" className="font-heading text-base font-bold">Pesan Anda telah terkirim</h1>
         </div>
-      </div>
-      {anonymous && (
-        <p data-testid="success-anon-warning" className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-left text-sm text-amber-900">
-          Pesan anonim tidak tersimpan di akun Anda. Catat nomor tiket dan kode akses ini — keduanya satu-satunya cara
-          memantau status dan membaca balasan.
+        <div className="my-4 border-t border-dashed border-slate-300" />
+        <dl className="space-y-2">
+          <div className="flex justify-between"><dt>Tanggal</dt><dd>{now}</dd></div>
+          <div className="flex justify-between"><dt>Status</dt><dd className="font-bold text-navy">TERKIRIM</dd></div>
+          <div className="flex justify-between"><dt>Cara kirim</dt><dd>{anonymous ? "ANONIM" : "TERCATAT"}</dd></div>
+          <div className="flex justify-between"><dt>Target tinjau</dt><dd>3 hari kerja</dd></div>
+        </dl>
+        <div className="my-4 border-t border-dashed border-slate-300" />
+        <div className="space-y-3">
+          <div className="flex items-center justify-between rounded-lg bg-cream px-3 py-2.5">
+            <span>
+              <span className="block text-[11px] uppercase text-muted-foreground">Nomor tiket</span>
+              <span data-testid="success-ticket-number" className="text-lg font-bold text-navy">{created.ticket_no}</span>
+            </span>
+            <Button data-testid="copy-ticket-number" variant="ghost" size="icon-sm" onClick={() => copy(created.ticket_no)} aria-label="Salin nomor tiket">
+              <Copy className="size-4" />
+            </Button>
+          </div>
+          <div className="flex items-center justify-between rounded-lg bg-cream px-3 py-2.5">
+            <span>
+              <span className="block text-[11px] uppercase text-muted-foreground">Kode akses</span>
+              <span data-testid="success-access-code" className="text-lg font-bold text-market-red">{created.access_code}</span>
+            </span>
+            <Button data-testid="copy-access-code" variant="ghost" size="icon-sm" onClick={() => copy(created.access_code)} aria-label="Salin kode akses">
+              <Copy className="size-4" />
+            </Button>
+          </div>
+        </div>
+        <p data-testid="success-save-warning" className="mt-4 text-center text-xs leading-relaxed text-slate-600">
+          Simpan struk ini. Nomor tiket dan kode akses adalah satu-satunya cara memantau status dan membaca balasan
+          {anonymous ? " — identitas Anda tidak tersimpan." : "."}
         </p>
-      )}
-      <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link to="/tiket-saya" data-testid="success-my-tickets-link" className={buttonVariants()}>
-          Pantau di Tiket Saya
+        <p className="mt-4 text-center text-xs tracking-[0.3em] text-slate-400">*** TERIMA KASIH ***</p>
+        <div className="receipt-edge absolute inset-x-0 -bottom-[14px] h-[14px] rotate-180" aria-hidden />
+      </div>
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <Link
+          to={`/lacak?no=${encodeURIComponent(created.ticket_no)}&kode=${encodeURIComponent(created.access_code)}`}
+          data-testid="success-track-link"
+          className={buttonVariants()}
+        >
+          Lacak tiket ini
         </Link>
         <Link to="/" data-testid="success-home-link" className={buttonVariants({ variant: "outline" })}>
           Kembali ke Beranda

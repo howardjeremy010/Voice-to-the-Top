@@ -1,0 +1,131 @@
+{
+  "iteration": 1,
+  "passed": 20,
+  "failed": 0,
+  "flaky": 0,
+  "blocked": 0,
+  "test_error": 0,
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [],
+  "checks": [
+    {
+      "criterion": "Anyone can submit VTT without login via 4-step wizard",
+      "name": "test_tscheck_public_submit_lookup.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /tickets (anonim keluhan) -> 200 {ticket_no, access_code}; rahasia w/o name -> 400; apresiasi w/o consent -> 400; apresiasi with consent -> 200"
+    },
+    {
+      "criterion": "Anyone can submit VTT without login via 4-step wizard",
+      "name": "vtt-wizard-submit-anonim",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Kategori->Tulis Pesan->mode anonim (no identity fields rendered)->review->submit; success screen shows ticket number + access code"
+    },
+    {
+      "criterion": "Apresiasi mode requires recipient + publish consent checkbox",
+      "name": "vtt-wizard-apresiasi-requires-consent",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Lanjut button disabled until consent checkbox checked; after checking, submit succeeds and success screen renders"
+    },
+    {
+      "criterion": "Public tracking by ticket number + access code",
+      "name": "public-tracking-rejected-resubmit",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "/lacak?no=VTT-2026-0007&kode=DEMO07 shows rejected ticket card; wrong code shows lookup-error"
+    },
+    {
+      "criterion": "Public tracking by ticket number + access code (wrong code / seeded rejected ticket)",
+      "name": "test_tscheck_public_submit_lookup.py::test_seeded_rejected_ticket_lookup",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /tickets/lookup {VTT-2026-0007, DEMO07} -> 200 status=ditolak with rejection_reason; wrong code -> 404"
+    },
+    {
+      "criterion": "Only management can log in; /hc and /eksekutif redirect anonymous visitors",
+      "name": "login-and-redirect-protection",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Visiting /hc without session renders login-form; login with hc@insan.co.id/Insan2026! lands on hc-ticket-list"
+    },
+    {
+      "criterion": "Only management can log in",
+      "name": "test_tscheck_auth_login.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "POST /auth/login for hc@/ceo@/chco@insan.co.id -> 200; wrong password -> 401; /hc/tickets and /exec/tickets without cookie -> 401"
+    },
+    {
+      "criterion": "HC moderation: pending list, Mulai tinjau, Teruskan/Setujui, Tolak with mandatory reason",
+      "name": "hc-moderation-forwards-ticket",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Created ticket via wizard, HC login, opened detail (identity visible), Mulai tinjau -> approve/forward; screenshot after-forward confirms status change"
+    },
+    {
+      "criterion": "HC moderation (approve->wall, reject requires reason)",
+      "name": "test_tscheck_hc_moderation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "approve apresiasi ticket -> status disetujui, appears in GET /wall; reject with reason<5 chars -> 422, valid reason -> 200 status ditolak"
+    },
+    {
+      "criterion": "CEO & CHCO inbox: only forwarded closed tickets; followup + reply -> Selesai; reply visible in /lacak",
+      "name": "exec-inbox-reply-completes-ticket",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "HC forwards ticket, CEO login sees it in exec-ticket-list, sends reply, ticket moves to 'Sudah dibalas' tab showing exec-reply-sent"
+    },
+    {
+      "criterion": "CEO & CHCO inbox (exclude pending-HC tickets, reply visible publicly)",
+      "name": "test_tscheck_exec_inbox.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "followup->ditindaklanjuti, reply->selesai; public lookup shows reply.message; unforwarded ticket absent from GET /exec/tickets"
+    },
+    {
+      "criterion": "Rekap & Audit: counts, rejection reasons, overdue, audit log; no message titles/content",
+      "name": "exec-rekap-shows-counts-no-content",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "recap-total >= 7, recap-chart/overdue-list/rejections-table/audit-table visible; page body does not leak raw ticket title text"
+    },
+    {
+      "criterion": "Rekap & Audit (content-free, hc forbidden)",
+      "name": "test_tscheck_rekap_audit.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /exec/recap as ceo -> 200 with no title/message keys in rejections/audit entries; as hc -> 403"
+    },
+    {
+      "criterion": "Role separation: HC cannot open /eksekutif, exec cannot open /hc",
+      "name": "role-separation-hc-vs-exec",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "HC visiting /eksekutif redirected back to hc-ticket-list; exec visiting /hc redirected back to exec-ticket-list"
+    },
+    {
+      "criterion": "Role separation (API)",
+      "name": "test_tscheck_role_separation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "HC token GET /exec/tickets and /exec/recap -> 403; exec token GET /hc/tickets -> 403"
+    },
+    {
+      "criterion": "Public site accessible without login",
+      "name": "public-pages-render-no-login",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "/, /vtt, /lacak, /dinding-apresiasi, /wbs, /hotline-hc, /cara-kerja all render key elements with no session; re-verified against public preview URL https://voice-matters-34.preview.emergentagent.com"
+    }
+  ],
+  "notes": [
+    "Matrix has 8 criteria; apresiasi consent sub-rule split into its own browser check for clarity (9 browser checks total).",
+    "Backend suite: 14 tests across 6 files, all passed (cd /app/backend && python -m pytest -q tests/).",
+    "exec-inbox-reply-completes-ticket initial script version mis-asserted reply visibility in the now-filtered-out 'Perlu tanggapan' tab; fixed by checking the 'Sudah dibalas' tab (expected app behavior, not a bug) and reran clean.",
+    "Email notification on forward and WBS/WhatsApp/Google Forms placeholders are documented spec deviations, not exercised as bugs."
+  ]
+}

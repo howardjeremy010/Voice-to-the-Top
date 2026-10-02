@@ -2,16 +2,20 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource-variable/outfit";
 @import "@fontsource-variable/plus-jakarta-sans";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: 'Plus Jakarta Sans Variable', sans-serif;
+    --font-heading: 'Outfit Variable', sans-serif;
     --font-sans: 'Plus Jakarta Sans Variable', sans-serif;
     --font-mono: 'JetBrains Mono Variable', monospace;
-    --color-navy: #0F2942;
-    --color-teal: #0D9488;
+    --color-navy: #0B3D2E;
+    --color-teal: #12805C;
+    --color-market-red: #B4161B;
+    --color-gold: #B8973A;
+    --color-cream: #FBF8F2;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -52,6 +56,12 @@
     --radius-4xl: calc(var(--radius) * 2.6);
     --animate-rise: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
     --animate-soft-pulse: soft-pulse 1.8s ease-in-out infinite;
+    --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }
 
 @keyframes rise {
@@ -65,27 +75,27 @@
 }
 
 :root {
-    --background: #F8FAFC;
-    --foreground: #0F172A;
+    --background: #FBF8F2;
+    --foreground: #13231C;
     --card: #FFFFFF;
     --card-foreground: #0F172A;
     --popover: #FFFFFF;
     --popover-foreground: #0F172A;
-    --primary: #0F2942;
-    --primary-foreground: #F8FAFC;
+    --primary: #0B3D2E;
+    --primary-foreground: #FBF8F2;
     --secondary: #F1F5F9;
     --secondary-foreground: #0F172A;
     --muted: #F1F5F9;
     --muted-foreground: #475569;
-    --accent: #E6F4F2;
-    --accent-foreground: #0F2942;
+    --accent: #EAF5EE;
+    --accent-foreground: #0B3D2E;
     --destructive: #BE123C;
-    --border: #E2E8F0;
-    --input: #CBD5E1;
-    --ring: #0D9488;
-    --chart-1: #0D9488;
-    --chart-2: #0284C7;
-    --chart-3: #0F2942;
+    --border: #E7E1D3;
+    --input: #D6CFBF;
+    --ring: #12805C;
+    --chart-1: #12805C;
+    --chart-2: #B8973A;
+    --chart-3: #0B3D2E;
     --chart-4: #B45309;
     --chart-5: #BE123C;
     --radius: 0.7rem;
@@ -133,7 +143,28 @@
     --sidebar-ring: #2DD4BF;
 }
 
+/* Supermarket awning stripe + receipt edge */
+.awning {
+    background: repeating-linear-gradient(90deg, #B4161B 0 28px, #FBF8F2 28px 56px);
+}
+.awning-green {
+    background: repeating-linear-gradient(90deg, #12805C 0 28px, #FBF8F2 28px 56px);
+}
+.receipt-edge {
+    background: radial-gradient(circle at 8px 0, transparent 7px, #FFFFFF 7.5px) 0 0 / 16px 14px repeat-x;
+}
+.gingham {
+    background-color: #FBF8F2;
+    background-image:
+        linear-gradient(90deg, rgb(18 128 92 / 6%) 50%, transparent 50%),
+        linear-gradient(rgb(18 128 92 / 6%) 50%, transparent 50%);
+    background-size: 28px 28px;
+}
+
 @layer base {
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+    }
   * {
     @apply border-border outline-ring/50;
     }
