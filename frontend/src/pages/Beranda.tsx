@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight, Lock, Globe2, ShieldAlert, Phone, Search, Quote, ShieldCheck, UserRound, EyeOff, Check, X, ChevronDown } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { apiGet } from "@/lib/api";
@@ -27,6 +27,27 @@ const MODES = [
   { id: "anonim", label: "Anonim", icon: EyeOff, desc: "Identitas tidak dikumpulkan sama sekali.", hc: false, exec: false, peers: false },
 ] as const;
 
+const INTRO = 1.35; // seconds until the shutter has rolled up and hero content starts
+
+const SPARKLES = [
+  { x: "62%", y: "18%", size: 14 }, { x: "78%", y: "30%", size: 22 }, { x: "88%", y: "14%", size: 12 },
+  { x: "70%", y: "62%", size: 18 }, { x: "92%", y: "52%", size: 26 }, { x: "55%", y: "78%", size: 12 },
+  { x: "82%", y: "80%", size: 16 }, { x: "48%", y: "10%", size: 10 }, { x: "96%", y: "34%", size: 10 },
+];
+
+function HeroWord({ i, reduce, children }: { i: number; reduce: boolean | null; children: ReactNode }) {
+  return (
+    <motion.span
+      className="inline-block"
+      initial={reduce ? false : { opacity: 0, y: 40, filter: "blur(8px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ delay: INTRO + 0.1 + i * 0.09, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
 function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
   return (
     <motion.div
@@ -47,6 +68,7 @@ function SectionLabel({ n, children }: { n: string; children: ReactNode }) {
 
 export default function Beranda() {
   const wall = useQuery({ queryKey: ["wall"], queryFn: () => apiGet<WallItem[]>("/wall"), retry: false });
+  const reduce = useReducedMotion();
   const [word, setWord] = useState(0);
   const [step, setStep] = useState(0);
   const [mode, setMode] = useState<(typeof MODES)[number]["id"]>("rahasia");
@@ -92,26 +114,83 @@ export default function Beranda() {
         data-testid="home-hero"
         className="relative flex min-h-[calc(100svh-74px)] flex-col overflow-hidden bg-navy text-white"
       >
-        <motion.img
-          style={{ x: bgX, y: bgY, scale: 1.08 }}
-          src="https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=srgb&fm=jpg&q=75&w=2000"
-          alt="Produk segar di supermarket"
-          className="absolute inset-0 size-full object-cover opacity-45"
-        />
+        <motion.div
+          initial={reduce ? false : { scale: 1.3, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <motion.img
+            style={{ x: bgX, y: bgY, scale: 1.08 }}
+            src="https://images.unsplash.com/photo-1542838132-92c53300491e?crop=entropy&cs=srgb&fm=jpg&q=75&w=2000"
+            alt="Produk segar di supermarket"
+            className="absolute inset-0 size-full object-cover opacity-45"
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/10" />
+
+        {/* Floating gold sparkles */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          {SPARKLES.map((s, i) => (
+            <motion.span
+              key={i}
+              className="absolute text-[#E9D48B]"
+              style={{ left: s.x, top: s.y, fontSize: s.size }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={reduce ? { opacity: 0.5 } : { opacity: [0, 0.8, 0.3, 0.8], scale: 1, y: [0, -18, 0], rotate: [0, 90, 180] }}
+              transition={{ delay: INTRO + 0.4 + i * 0.12, duration: 6 + (i % 4), repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+            >
+              ✦
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Store-opening shutter */}
+        {!reduce && (
+          <motion.div
+            data-testid="hero-intro-shutter"
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-30 flex flex-col"
+            initial={{ y: 0 }}
+            animate={{ y: "-101%" }}
+            transition={{ delay: INTRO - 0.5, duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+          >
+            <div className="flex flex-1 items-center justify-center" style={{ background: "repeating-linear-gradient(90deg, #B4161B 0 56px, #FBF8F2 56px 112px)" }}>
+              <motion.div
+                initial={{ scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 220, damping: 18, delay: 0.1 }}
+                className="flex flex-col items-center rounded-3xl bg-white px-10 py-7 shadow-[0_24px_60px_rgba(11,61,46,0.35)]"
+              >
+                <img src="/logo-sbl.png" alt="" className="h-16 w-auto" />
+                <p className="mt-3 font-heading text-xl font-bold text-navy">Insan Bersuara</p>
+                <motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.35, duration: 0.6 }} className="mt-3 h-1 w-24 origin-left rounded-full bg-teal" />
+              </motion.div>
+            </div>
+            <div className="h-5 bg-[radial-gradient(circle_at_14px_0,#B4161B_13px,transparent_14px)] bg-[length:28px_20px] bg-repeat-x" />
+          </motion.div>
+        )}
+
         <div className="relative flex flex-1 flex-col justify-center px-4 py-16 md:px-10 lg:px-16">
-          <motion.p initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="inline-flex w-fit items-center gap-2 rounded-full bg-market-red px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-white">
+          <motion.p
+            initial={reduce ? false : { opacity: 0, scale: 0.6, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 260, damping: 16, delay: INTRO }}
+            className="inline-flex w-fit items-center gap-2 rounded-full bg-market-red px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-white"
+          >
             Insan Bersuara · Where Every Voice Matters
           </motion.p>
-          <motion.h1
+          <h1
             data-testid="page-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="mt-5 max-w-5xl text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl xl:text-8xl"
+            className="relative mt-5 max-w-5xl text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl xl:text-8xl"
           >
-            Sampaikan{" "}
-            <span className="relative inline-flex h-[1.1em] overflow-hidden align-bottom">
+            <HeroWord i={0} reduce={reduce}>Sampaikan</HeroWord>{" "}
+            <motion.span
+              initial={reduce ? false : { opacity: 0, y: 40, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: INTRO + 0.25, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="relative inline-flex h-[1.1em] overflow-hidden align-bottom"
+            >
               <AnimatePresence mode="wait">
                 <motion.span
                   key={WORDS[word]}
@@ -125,13 +204,37 @@ export default function Beranda() {
                   {WORDS[word]}
                 </motion.span>
               </AnimatePresence>
-            </span>
-            <br />Anda, langsung ke Top Management.
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">
+            </motion.span>
+            <br />
+            {["Anda,", "langsung", "ke", "Top", "Management."].map((w, i) => (
+              <span key={w}>
+                <HeroWord i={i + 2} reduce={reduce}>{w}</HeroWord>{" "}
+              </span>
+            ))}
+            {!reduce && (
+              <motion.span
+                aria-hidden
+                className="pointer-events-none absolute inset-y-0 -left-1/4 w-1/4 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                initial={{ x: "0%" }}
+                animate={{ x: "600%" }}
+                transition={{ delay: INTRO + 1.2, duration: 1.1, ease: "easeInOut" }}
+              />
+            )}
+          </h1>
+          <motion.p
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: INTRO + 0.9, duration: 0.5 }}
+            className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl"
+          >
             Bersama menyuarakan, bersama mewujudkan.
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mt-9 flex flex-wrap gap-3">
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: INTRO + 1.05, type: "spring", stiffness: 200, damping: 18 }}
+            className="mt-9 flex flex-wrap gap-3"
+          >
             <Link to="/vtt" data-testid="hero-send-vtt-button" className={cn(buttonVariants({ size: "lg" }), "group h-13 bg-teal px-7 text-base text-white shadow-[0_8px_24px_rgba(18,128,92,0.45)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-teal/90")}>
               Sampaikan Suara Anda <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
             </Link>
@@ -144,10 +247,17 @@ export default function Beranda() {
             </Link>
           </motion.div>
         </div>
-        <a href="#cara" data-testid="hero-scroll-hint" className="relative mx-auto mb-4 flex flex-col items-center text-xs text-white/70 transition-colors duration-150 hover:text-white">
+        <motion.a
+          href="#cara"
+          data-testid="hero-scroll-hint"
+          initial={reduce ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: INTRO + 1.4 }}
+          className="relative mx-auto mb-4 flex flex-col items-center text-xs text-white/70 transition-colors duration-150 hover:text-white"
+        >
           Geser untuk memilih
           <ChevronDown className="mt-1 size-5 animate-bounce" />
-        </a>
+        </motion.a>
         <div className="relative overflow-hidden bg-market-red py-3 text-white" aria-hidden>
           <div className="flex w-max animate-marquee gap-10 whitespace-nowrap text-sm font-semibold">
             {[...MARQUEE, ...MARQUEE, ...MARQUEE, ...MARQUEE].map((m, i) => (
