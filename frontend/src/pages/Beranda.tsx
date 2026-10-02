@@ -186,7 +186,10 @@ export default function Beranda() {
                     style={{ background: "radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), rgba(18,128,92,0.12), transparent 65%)" }}
                   />
                   <div className="-mx-6 -mt-6 mb-5 flex items-center justify-between bg-navy px-6 py-2.5 text-white transition-colors duration-300 group-hover:bg-teal">
-                    <span data-testid={`aisle-sign-${c.id}`} className="font-mono text-xs font-bold tracking-widest">CARA {String(i + 1).padStart(2, "0")}</span>
+                    <span data-testid={`aisle-sign-${c.id}`} className="inline-flex items-center gap-1.5 font-mono text-xs font-bold tracking-widest">
+                      {c.open ? <Globe2 className="size-3.5" /> : <Lock className="size-3.5" />}
+                      {c.open ? "TERBUKA" : "TERTUTUP"}
+                    </span>
                     <ArrowUpRight className="size-4 text-white/60 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </div>
                   <div className="relative flex items-start justify-between">

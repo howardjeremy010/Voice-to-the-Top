@@ -42,4 +42,4 @@ WBS_URL, HOTLINE_WA_NUMBER, HOTLINE_FEEDBACK_URL are placeholders.
 
 ## Branding (PT Supra Boga Lestari)
 - Logo files in frontend/public: logo-sbl.png (header/receipt), logo-sbl-group.png (footer, incl. Farmers Market & Ranch Market), favicon-sbl.png.
-- Supermarket theme: deep green #0B3D2E (navy token), Farmers green #12805C (teal token), market red #B4161B, gold #B8973A, cream bg #FBF8F2; red/white awning stripe on headers; categories shown as "CARA 0X" signs with gold price-tag labels; VTT success shown as a receipt ("Struk Suara Insan"). Headings use Outfit.
+- Supermarket theme: deep green #0B3D2E (navy token), Farmers green #12805C (teal token), market red #B4161B, gold #B8973A, cream bg #FBF8F2; red/white awning stripe on headers; categories shown as top band shows TERBUKA/TERTUTUP with gold price-tag labels; VTT success shown as a receipt ("Struk Suara Insan"). Headings use Outfit.
