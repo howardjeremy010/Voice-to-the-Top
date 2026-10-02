@@ -1,0 +1,349 @@
+{
+  "theme": "light",
+  "archetype": "ORGANIC_SOFT_CORPORATE",
+  "brand_name": "Insan Bersuara",
+  "brand_tagline": "Where Every Voice Matters",
+  "language": "id-ID",
+  "typography": {
+    "font_heading": "'Plus Jakarta Sans Variable', sans-serif",
+    "font_body": "'Plus Jakarta Sans Variable', sans-serif",
+    "font_mono": "'JetBrains Mono Variable', monospace",
+    "scale_px": {
+      "display": 56,
+      "h1": 40,
+      "h2": 32,
+      "h3": 24,
+      "body": 16,
+      "caption": 14
+    },
+    "fontsource_imports": [
+      "@fontsource-variable/plus-jakarta-sans",
+      "@fontsource-variable/jetbrains-mono"
+    ]
+  },
+  "colors": {
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#F8FAFC",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#0284C7",
+          "error": "#BE123C",
+          "success": "#047857",
+          "warning": "#B45309"
+        }
+      },
+      {
+        "name": "panel",
+        "kind": "solid",
+        "bg": "#FFFFFF",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#64748B",
+        "roles": {
+          "link": "#0284C7",
+          "error": "#BE123C",
+          "success": "#047857",
+          "warning": "#B45309"
+        }
+      },
+      {
+        "name": "card_subtle",
+        "kind": "solid",
+        "bg": "#F1F5F9",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569"
+      },
+      {
+        "name": "brand_banner",
+        "kind": "solid",
+        "bg": "#0F2942",
+        "on_bg": "#F8FAFC",
+        "on_bg_muted": "#CBD5E1",
+        "roles": {
+          "link": "#38BDF8",
+          "accent": "#0D9488"
+        }
+      },
+      {
+        "name": "pill_kategori_apresiasi",
+        "kind": "solid",
+        "bg": "#FEF3C7",
+        "on_bg": "#78350F",
+        "on_bg_muted": "#92400E"
+      },
+      {
+        "name": "pill_kategori_aspirasi",
+        "kind": "solid",
+        "bg": "#E0F2FE",
+        "on_bg": "#0369A1",
+        "on_bg_muted": "#0284C7"
+      },
+      {
+        "name": "pill_kategori_perbaikan",
+        "kind": "solid",
+        "bg": "#DCFCE7",
+        "on_bg": "#15803D",
+        "on_bg_muted": "#16A34A"
+      },
+      {
+        "name": "pill_kategori_inovasi",
+        "kind": "solid",
+        "bg": "#F3E8FF",
+        "on_bg": "#6B21A8",
+        "on_bg_muted": "#7E22CE"
+      },
+      {
+        "name": "pill_kategori_keluhan",
+        "kind": "solid",
+        "bg": "#FFE4E6",
+        "on_bg": "#9F1239",
+        "on_bg_muted": "#BE123C"
+      },
+      {
+        "name": "pill_kategori_opini",
+        "kind": "solid",
+        "bg": "#E2E8F0",
+        "on_bg": "#334155",
+        "on_bg_muted": "#475569"
+      },
+      {
+        "name": "pill_sla_overdue",
+        "kind": "solid",
+        "bg": "#FEE2E2",
+        "on_bg": "#991B1B",
+        "on_bg_muted": "#B91C1C"
+      },
+      {
+        "name": "pill_sla_ontrack",
+        "kind": "solid",
+        "bg": "#E0F2FE",
+        "on_bg": "#075985",
+        "on_bg_muted": "#0284C7"
+      }
+    ],
+    "accent": "#0D9488",
+    "on_accent": "#FFFFFF",
+    "secondary_accent": "#0284C7",
+    "on_secondary_accent": "#FFFFFF",
+    "primary_corporate": "#0F2942"
+  },
+  "entry_surfaces": {
+    "/": "editorial corporate portal — welcome banner top, quick category grid & live appreciation wall feed, action sidebar with demo role switch",
+    "/vtt/new": "multi-step VTT wizard — category selector, submission mode (Rahasia/Bernama/Anonim), structured composer, review & confirm modal",
+    "/tiket-saya": "split ticket tracker — ticket search / anonymous lookup bar top, filter tabs, active ticket cards with SLA timeline and status chips",
+    "/dinding-apresiasi": "bento grid appreciation wall — celebratory badges, filtered by department, heart/cheer reaction triggers",
+    "/hc/moderasi": "dense HC moderation inbox — SLA countdown alerts (3-day review / 7-day action), category filter, action modal (Forward to CEO, Publish, Reject w/ reason)",
+    "/ceo/inbox": "executive clean inbox — confidential escalated VTT items, direct reply thread, audit log & rejection summary metrics, read-only appreciation link",
+    "/wbs": "authoritative whistleblowing overview — confidential protocol guarantee, external portal link, scannable QR verification code",
+    "/hotline-hc": "emergency HR hotline center — 24/7 direct WhatsApp QR, quick triage cards (Kecelakaan Kerja, Darurat BPJS, K3), and Google Forms feedback channel",
+    "/cara-kerja": "step-by-step workflow blueprint — flowchart of 6 categories, SLA timeline (3 vs 7 working days), privacy & security guarantees"
+  },
+  "visual_enhancers": {
+    "style": "Soft Corporate Indonesian (Modern BUMN / Tech-Enterprise Standard)",
+    "texture": "Subtle border strokes (border-slate-200/80), layered shadows (shadow-sm to shadow-md), pill badges, soft tinted backgrounds for categories",
+    "radius": "rounded-xl for cards, rounded-full for badges and action pills, rounded-lg for inputs",
+    "elevation": "shadow-[0_2px_8px_rgba(15,23,42,0.04)] on default cards, hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)]",
+    "micro_interactions": "Smooth state transitions (150ms ease), SLA indicator pulsing dot for overdue items, step indicator with connected progress bar"
+  },
+  "component_structure": {
+    "layout_components": [
+      {
+        "name": "AppHeader",
+        "path": "frontend/src/components/layout/AppHeader.tsx",
+        "description": "Sticky corporate navigation bar with logo 'Insan Bersuara', active role pill badge (Karyawan / HC Moderasi / CEO & CHCO), role switcher dropdown for instant demo testing, quick emergency Hotline pill, and language indicator."
+      },
+      {
+        "name": "RoleSwitcher",
+        "path": "frontend/src/components/layout/RoleSwitcher.tsx",
+        "description": "Seamless demo account switch (Karyawan: Siti Rahmawati, Human Capital: Budi Prasetyo, CEO & CHCO: Ir. Hendra Kusuma & Maya Arifin) with visual badges and role capabilities preview."
+      },
+      {
+        "name": "VttWizard",
+        "path": "frontend/src/components/vtt/VttWizard.tsx",
+        "description": "4-step wizard: (1) Kategori Pesan (6 cards w/ icon & scope), (2) Mode Pengiriman (Rahasia / Bernama / Anonim), (3) Konten & Konfirmasi Persetujuan (khusus Apresiasi wajib checkbox publikasi), (4) Tinjau dan Konfirmasi dengan generator nomor tiket instan (e.g., VTT-2026-XXXX)."
+      },
+      {
+        "name": "TicketLookupModal",
+        "path": "frontend/src/components/tickets/TicketLookupModal.tsx",
+        "description": "Modal for anonymous users to enter their Ticket Code (Nomor Tiket & Kode Akses) to track progress, view HC/CEO replies, and resubmit if rejected."
+      },
+      {
+        "name": "SlaIndicatorBadge",
+        "path": "frontend/src/components/common/SlaIndicatorBadge.tsx",
+        "description": "Calculates SLA remaining based on working days (3 Hari Kerja Tinjau HC, 7 Hari Kerja Tindak Lanjut). Shows 'Overdue', 'Mendekati Batas', or 'Tepat Waktu' with color coding."
+      },
+      {
+        "name": "AppreciationWallCard",
+        "path": "frontend/src/components/wall/AppreciationWallCard.tsx",
+        "description": "Warm, inspiring peer recognition cards featuring recipient, sender (or Rahasia), category tag, and warm cheer reactions."
+      },
+      {
+        "name": "HcModerationActionModal",
+        "path": "frontend/src/components/hc/HcModerationActionModal.tsx",
+        "description": "HC workflow actions: (1) Teruskan ke CEO & CHCO (dengan catatan telaah HC), (2) Setujui & Terbitkan ke Dinding Apresiasi, (3) Tolak Pesan dengan Alasan Wajib & Opsi Kirim Ulang."
+      },
+      {
+        "name": "CeoReplyBox",
+        "path": "frontend/src/components/ceo/CeoReplyBox.tsx",
+        "description": "Executive response panel allowing CEO/CHCO to send official resolution note, assign task team, or mark as Selesai."
+      },
+      {
+        "name": "AuditLogViewer",
+        "path": "frontend/src/components/ceo/AuditLogViewer.tsx",
+        "description": "Executive compliance viewer showing rejection recaps, timestamp logs, and categorized volume without breaching confidential message content."
+      }
+    ]
+  },
+  "image_urls": {
+    "team_collaboration": {
+      "url": "https://images.unsplash.com/photo-1672917187338-7f81ecac3d3f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBpbmRvbmVzaWFuJTIwb2ZmaWNlJTIwdGVhbSUyMGRpc2N1c3Npb258ZW58MHx8fHwxNzkwOTIzMTY4fDA&ixlib=rb-4.1.0&q=85",
+      "category": "hero_illustration_portal",
+      "alt": "Tim profesional berkolaborasi secara inklusif dan produktif"
+    },
+    "leadership_partnership": {
+      "url": "https://images.unsplash.com/photo-1521791136064-7986c2920216?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwzfHxjb3Jwb3JhdGUlMjBsZWFkZXJzaGlwJTIwaGFuZHNoYWtlJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3OTA5MjMxNjh8MA&ixlib=rb-4.1.0&q=85",
+      "category": "executive_commitment_banner",
+      "alt": "Komitmen pimpinan mendengarkan setiap suara insan perusahaan"
+    },
+    "office_conversation": {
+      "url": "https://images.unsplash.com/photo-1605220061884-e9019d7bf027?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBpbmRvbmVzaWFuJTIwb2ZmaWNlJTIwdGVhbSUyMGRpc2N1c3Npb258ZW58MHx8fHwxNzkwOTIzMTY4fDA&ixlib=rb-4.1.0&q=85",
+      "category": "about_cara_kerja",
+      "alt": "Diskusi terbuka dan terpercaya antar insan karyawan"
+    }
+  },
+  "business_rules_and_data_contracts": {
+    "categories": [
+      {
+        "id": "apresiasi",
+        "name": "Insan Menginspirasi",
+        "sub": "Apresiasi & Pengakuan Rekan Kerja",
+        "scope": "public_on_wall",
+        "description": "Kirim pujian dan ucapan terima kasih kepada rekan kerja yang berdedikasi tinggi.",
+        "icon": "Award",
+        "color_theme": "amber"
+      },
+      {
+        "id": "aspirasi",
+        "name": "Asa Insan",
+        "sub": "Aspirasi & Harapan Karyawan",
+        "scope": "closed",
+        "description": "Sampaikan harapan strategis untuk kemajuan lingkungan dan budaya kerja.",
+        "icon": "Compass",
+        "color_theme": "sky"
+      },
+      {
+        "id": "perbaikan",
+        "name": "Insan Bertumbuh",
+        "sub": "Perbaikan & Saran Operasional",
+        "scope": "closed",
+        "description": "Usulan perbaikan proses kerja, efisiensi alur operasional, dan perbaikan fasilitas.",
+        "icon": "TrendingUp",
+        "color_theme": "emerald"
+      },
+      {
+        "id": "inovasi",
+        "name": "Insan Berkarya",
+        "sub": "Ide Inovasi & Transformasi",
+        "scope": "closed",
+        "description": "Gagasan kreatif, produk baru, digitalisasi, atau model layanan terobosan.",
+        "icon": "Lightbulb",
+        "color_theme": "purple"
+      },
+      {
+        "id": "keluhan",
+        "name": "Ruang Peduli Insan",
+        "sub": "Keluhan Tempat Kerja & Relasi",
+        "scope": "closed",
+        "description": "Kanal aman untuk menyampaikan kendala hubungan kerja, fasilitas, atau dinamika tim.",
+        "icon": "ShieldAlert",
+        "color_theme": "rose"
+      },
+      {
+        "id": "opini",
+        "name": "Ragam Insan",
+        "sub": "Opini Umum & Masukan Terbuka",
+        "scope": "closed",
+        "description": "Pandangan bebas seputar kebijakan perusahaan, kenyamanan kerja, dan inisiatif sosial.",
+        "icon": "MessageSquare",
+        "color_theme": "slate"
+      }
+    ],
+    "send_modes": [
+      {
+        "id": "rahasia",
+        "title": "Rahasia (Confidential)",
+        "desc": "Identitas Anda tercatat dalam sistem terenkripsi namun hanya dapat dilihat oleh tim HC terverifikasi untuk tindak lanjut.",
+        "requires_name": false
+      },
+      {
+        "id": "bernama",
+        "title": "Bernama (Identitas Terbuka)",
+        "desc": "Nama dan divisi Anda akan dicantumkan secara terbuka kepada penerima/pimpinan.",
+        "requires_name": true
+      },
+      {
+        "id": "anonim",
+        "title": "Anonim (100% Tanpa Identitas)",
+        "desc": "Sistem tidak menyimpan metadata identitas Anda. Simpan Nomor Tiket untuk memantau respons.",
+        "requires_name": false
+      }
+    ],
+    "status_lifecycle": [
+      "Terkirim",
+      "Ditinjau",
+      "Diteruskan",
+      "Disetujui",
+      "Ditindaklanjuti",
+      "Ditolak",
+      "Selesai"
+    ],
+    "sla_standards": {
+      "hc_review_working_days": 3,
+      "management_action_working_days": 7
+    },
+    "demo_roles": [
+      {
+        "role_id": "karyawan",
+        "name": "Siti Rahmawati",
+        "title": "Senior Specialist - Operasional",
+        "email": "siti.rahmawati@perusahaan.co.id",
+        "badge": "Karyawan"
+      },
+      {
+        "role_id": "hc",
+        "name": "Budi Prasetyo",
+        "title": "Human Capital Lead & Moderator",
+        "email": "hc.moderator@perusahaan.co.id",
+        "badge": "Human Capital"
+      },
+      {
+        "role_id": "ceo",
+        "name": "Ir. Hendra Kusuma & Maya Arifin",
+        "title": "Chief Executive Officer & CHCO",
+        "email": "executive.office@perusahaan.co.id",
+        "badge": "CEO & CHCO"
+      }
+    ]
+  },
+  "instructions_to_main_agent": {
+    "core_principles": [
+      "Use Bahasa Indonesia exclusively across all UI strings, helper text, toasts, badges, and statuses.",
+      "The app style must be Soft Corporate: calm slate background, deep navy corporate anchors (#0F2942), warm teal accents (#0D9488), smooth borders, high-clarity typography.",
+      "Implement the complete multi-step Voice to the Top (VTT) flow with reactive validation.",
+      "For Apresiasi (Insan Menginspirasi), require the consent checkbox 'Saya setuju apresiasi ini ditampilkan pada Dinding Apresiasi' if approved.",
+      "Provide an instant Ticket ID generator (e.g. VTT-2026-0812) upon submission, with copy-to-clipboard functionality.",
+      "Support both 'Tiket Saya' (for logged-in submissions) and 'Lacak Tiket Anonim' (search by Ticket ID + Secret Code) so anonymous contributors can check replies and resubmit if rejected.",
+      "HC Screen must display SLA status with countdown (3 working days review SLA and 7 working days action SLA), filters (Kategori, Status, SLA status), action modal (Forward to CEO with HC review notes, Publish to Wall for Apresiasi, or Reject with mandatory reason + resubmit flag).",
+      "CEO & CHCO screen must display confidential forwarded closed tickets with direct reply threads, read-only link to Appreciation Wall, and an Executive Rejection Recap & Audit Log viewer (showing stats without breaching raw private content).",
+      "WBS (Whistleblowing System) page must feature clear corporate governance guidelines, external link button, and a scannable QR code component for mobile reporting.",
+      "Hotline Human Capital page must feature 24/7 emergency service triage cards (Kecelakaan Kerja, Darurat BPJS, K3 & Keselamatan Kerja), WhatsApp QR code with pre-filled message generator, and Google Forms employee feedback link.",
+      "Cara Kerja page must document the 6 categories, SLA timeline (3 vs 7 working days), privacy & security guarantees, and full lifecycle flowchart.",
+      "Provide a top-level Demo Account Switcher in the header or floating widget so evaluators can switch roles (Karyawan, HC Moderator, CEO & CHCO) in one click.",
+      "Every interactive element MUST have a `data-testid` attribute (e.g. data-testid='submit-vtt-btn', data-testid='role-switch-hc', data-testid='ticket-status-badge').",
+      "Ensure all color pairings meet WCAG AA contrast (minimum 4.5:1 for body and normal text)."
+    ]
+  }
+}
