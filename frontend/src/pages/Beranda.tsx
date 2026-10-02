@@ -15,7 +15,7 @@ const WORDS = ["apresiasi", "aspirasi", "saran", "ide inovasi", "keluhan", "opin
 
 const STEPS = [
   { title: "Sampaikan", text: "Pilih salah satu dari enam cara, tulis pesan, lalu tentukan cara mengirim: Rahasia, Bernama, atau Anonim. Tanpa perlu login.", status: "Terkirim" },
-  { title: "Simpan struk", text: "Anda langsung menerima struk berisi nomor tiket dan kode akses untuk memantau perkembangan pesan.", status: "Terkirim" },
+  { title: "Simpan Nomor Tiket", text: "Anda langsung menerima struk berisi nomor tiket dan kode akses untuk memantau perkembangan pesan.", status: "Terkirim" },
   { title: "Ditinjau HC", text: "Human Capital membaca dan menilai kelayakan pesan maksimal 3 hari kerja, agar pimpinan hanya menerima pesan yang pantas.", status: "Ditinjau" },
   { title: "Diteruskan", text: "Pesan tertutup diteruskan ke CEO & CHCO dengan notifikasi email. Apresiasi yang disetujui tampil di Dinding Apresiasi.", status: "Diteruskan" },
   { title: "Ditanggapi", text: "CEO & CHCO membaca dan membalas maksimal 7 hari kerja. Balasan dapat dibaca melalui Lacak Tiket; status menjadi Selesai.", status: "Selesai" },
