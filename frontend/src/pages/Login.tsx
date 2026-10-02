@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { apiPost } from "@/lib/api";
 import { beginSession } from "@/lib/session";
 import { errMsg } from "@/lib/hooks";
-import { DEMO_ACCOUNTS, DEMO_PASSWORD, ROLE_HOME, ROLE_LABEL } from "@/lib/constants";
+import { DEMO_ACCOUNTS, DEMO_PASSWORD, ROLE_HOME } from "@/lib/constants";
 import { queryClient } from "@/lib/queryClient";
 import type { User } from "@/lib/types";
 
@@ -126,7 +126,7 @@ export default function Login() {
                     <span className="block font-mono text-xs text-muted-foreground">{a.email}</span>
                   </span>
                   <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-navy">
-                    {a.role === "hc" ? a.note : `${ROLE_LABEL[a.role]} · ${a.note}`}
+                    {a.note}
                   </span>
                 </button>
               ))}
