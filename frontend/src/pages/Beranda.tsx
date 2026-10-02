@@ -145,7 +145,7 @@ export default function Beranda() {
                 </motion.span>
               </AnimatePresence>
             </span>
-            <br />Anda, langsung ke pimpinan.
+            <br />Anda, langsung ke Top Management.
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">
             Satu suara, satu langkah, perubahan nyata. Tanpa perlu login — cukup simpan struk nomor tiket untuk memantau tanggapan CEO &amp; CHCO.
