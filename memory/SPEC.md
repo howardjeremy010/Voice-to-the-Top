@@ -38,7 +38,7 @@ users, sessions, tickets (id, ticket_no VTT-YYYY-NNNN, access_code, category, mo
 Emergent-managed Resend (lib/email.py). On HC forwarding closed message, emails NOTIFY_EMAILS (currently delivered@resend.dev test address) — ticket no + category only, no content.
 
 ## Placeholders (frontend/src/lib/constants.ts)
-WBS_URL, HOTLINE_WA_NUMBER, HOTLINE_FEEDBACK_URL are placeholders.
+WBS_URL and HOTLINE_FEEDBACK_URL are placeholders; HOTLINE_WA_NUMBER is real (6287743900999).
 
 ## Branding (PT Supra Boga Lestari)
 - Logo files in frontend/public: logo-sbl.png (header/receipt), logo-sbl-group.png (footer, incl. Farmers Market & Ranch Market), favicon-sbl.png.
