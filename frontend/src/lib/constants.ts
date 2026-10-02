@@ -122,7 +122,7 @@ export const ROLE_HOME: Record<Role, string> = { hc: "/hc", exec: "/eksekutif" }
 export const WBS_URL = "https://wbs.perusahaan.co.id";
 export const HOTLINE_WA_NUMBER = "6287743900999";
 export const HOTLINE_WA_DISPLAY = "+62 877-4390-0999";
-export const HOTLINE_FEEDBACK_URL = "https://forms.gle/contoh-feedback-hotline-hc";
+export const HOTLINE_FEEDBACK_URL = "https://forms.gle/eG7KxBfDZQB4vEz28";
 export const hotlineWaUrl = (text = "Halo Hotline Human Capital, saya membutuhkan bantuan terkait ") =>
   `https://wa.me/${HOTLINE_WA_NUMBER}?text=${encodeURIComponent(text)}`;
 
