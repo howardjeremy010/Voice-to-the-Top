@@ -128,7 +128,7 @@ export const hotlineWaUrl = (text = "Halo Hotline Human Capital, saya membutuhka
 
 export const DEMO_PASSWORD = "Insan2026!";
 export const DEMO_ACCOUNTS: { email: string; name: string; role: Role; note: string }[] = [
-  { email: "hc@insan.co.id", name: "Fakhran Ghadati", role: "hc", note: "Human Capital Lead" },
+  { email: "hc@insan.co.id", name: "Fakhran Ghadati", role: "hc", note: "Human Capital Services" },
   { email: "ceo@insan.co.id", name: "Johartono Susilo", role: "exec", note: "CEO" },
   { email: "chco@insan.co.id", name: "Sandra Kumalasari", role: "exec", note: "CHCO" },
 ];

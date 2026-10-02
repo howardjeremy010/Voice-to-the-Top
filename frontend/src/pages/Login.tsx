@@ -126,7 +126,7 @@ export default function Login() {
                     <span className="block font-mono text-xs text-muted-foreground">{a.email}</span>
                   </span>
                   <span className="rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold text-navy">
-                    {ROLE_LABEL[a.role]} · {a.note}
+                    {a.role === "hc" ? a.note : `${ROLE_LABEL[a.role]} · ${a.note}`}
                   </span>
                 </button>
               ))}

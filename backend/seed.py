@@ -12,7 +12,7 @@ from lib.tickets import HC_REVIEW_DAYS, RESPONSE_DAYS, add_working_days, now
 
 PASSWORD = "Insan2026!"
 USERS = [
-    {"name": "Fakhran Ghadati", "email": "hc@insan.co.id", "role": "hc", "title": "Human Capital Lead", "department": "Human Capital"},
+    {"name": "Fakhran Ghadati", "email": "hc@insan.co.id", "role": "hc", "title": "Human Capital Services", "department": "Human Capital"},
     {"name": "Johartono Susilo", "email": "ceo@insan.co.id", "role": "exec", "title": "Chief Executive Officer", "department": "Direksi"},
     {"name": "Sandra Kumalasari", "email": "chco@insan.co.id", "role": "exec", "title": "Chief Human Capital Officer", "department": "Direksi"},
 ]
